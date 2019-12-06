@@ -74,10 +74,10 @@
   width: 30px;
   height: 30px;
   position: absolute;
-  bottom: 0;
+  bottom: 5px;
 }
 
-/* PostItem全体 */
+/* PostItem全体 PostItemのfooter，.ApplauseNumber，.imageAppluase，.PostDateの親要素 */
 .PostItem {
   padding: 1em 1em;
   margin: 2em 2em;
@@ -85,10 +85,6 @@
   background: #eeeeee;/*背景色*/
   font-size: 12px;
   font-family:  "serif";
-}
-
-/* PostItemのfooter，.ApplauseNumber，.imageAppluase，.PostDateの親要素 */
-.PostItemFooter {
   display: flex;
   position: relative;
 }
@@ -96,13 +92,13 @@
 /* 拍手数 */
 .ApplauseNumber {
   position: absolute;
-  bottom: 0;
-  left:35px;
+  bottom: 5px;
+  left: 45px;
 }
 
 /* Postの日 */
 .PostDate {
   position: absolute;
-  bottom: 0;
+  bottom: 5px;
   right: 30px;
 }

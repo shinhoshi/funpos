@@ -11,7 +11,7 @@ function PostItem(props) {
           {props.arrow}
           {props.heroIcon}
         </div>
-        <div>
+        <div className="PostItemText">
           <h1>
             {props.text}
           </h1>
