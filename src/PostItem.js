@@ -8,7 +8,11 @@ function PostItem(props) {
       <li>
         <div>
           {props.praiserIcon}
-          {props.arrow}
+          <img
+            src= "yazirushi.png"
+            alt="yazirushi"
+            className="imageAlign"
+          />
           {props.heroIcon}
         </div>
         <div className="PostItemText">

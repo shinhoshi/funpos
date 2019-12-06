@@ -17,9 +17,21 @@ export class PostInput extends React.Component {
     });
   }
 
-  handleClick() {
+  handleClick(e) {
+    e.preventDefault();
+
+    //空文字投稿できない
+    if (this.state.inputValue.trim() === '') {
+      return;
+    }
+
     const inputValue = this.state.inputValue;
     this.props.addPost(inputValue);
+
+    //formの中身を消してあげる
+    this.setState({
+      inputValue: '',
+    });
   }
 
   render() {
@@ -30,8 +42,9 @@ export class PostInput extends React.Component {
               type="text"
               placeholder='あなたの仲間の素敵な行動を褒めようぜ！'
               className="Postform"
-              value={this.state.inputValue}
               onChange={this.handleChange}
+              value={this.state.inputValue}
+              //onChangeしてからvalue
             />
             <input
               type="submit"

@@ -21,7 +21,6 @@ function getUniqueId() {
             text: 'aaa',
             id: 0 ,
             praiserIcon: <img src= "yuki.png" alt="yuki"  className="imageAlign"/>,
-            arrow: <img src= "yazirushi.png" alt="yazirushi" className="imageAlign"/>,
             heroIcon: <img src= "moe.jpeg" alt="moe"  className="imageAlign"/>,
             applauseNumber: 2,
             date: "2019/12/02 13:51"
@@ -30,7 +29,6 @@ function getUniqueId() {
             text: 'bbb',
             id: 1 ,
             praiserIcon: <img src= "satoko.png" alt="satoko" className="imageAlign"/>,
-            arrow: <img src= "yazirushi.png" alt="yazirushi" className="imageAlign"/>,
             heroIcon: <img src= "juma.png" alt="juma" className="imageAlign"/>,
             applauseNumber: 4,
             date: "2019/12/02"
@@ -44,21 +42,20 @@ function getUniqueId() {
 
 
     addPost(text) {
+
       const {
         posts,
         uniqueId,
-        // praiserIcon,
-        // arrow,
-        // heroIcon,
-        // applauseNumber,
-        // date,
+        praiserIcon,
+        heroIcon,
+        applauseNumber,
+        date,
       } = this.state;
 
       posts.unshift({
         text,
         id: uniqueId,
         praiserIcon: <img src= "satoko.png" alt="satoko" className="imageAlign"/>,
-        arrow: <img src= "yazirushi.png" alt="yazirushi" className="imageAlign"/>,
         heroIcon: <img src= "juma.png" alt="juma" className="imageAlign"/>,
         applauseNumber: 4,
         date: "2019/12/02"
@@ -67,11 +64,6 @@ function getUniqueId() {
       this.setState({
         posts,
         uniqueId:  getUniqueId(),
-        // praiserIcon: <img src= "satoko.png" alt="satoko" className="imageAlign"/>,
-        // arrow: <img src= "yazirushi.png" alt="yazirushi" className="imageAlign"/>,
-        // heroIcon: <img src= "juma.png" alt="juma" className="imageAlign"/>,
-        // applauseNumber: 4,
-        // date: "2019/12/02"
       });
     }
 
