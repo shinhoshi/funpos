@@ -18,7 +18,6 @@ import styles from './style.css';
         praiserIcon: <img src= "yuki.png" alt="yuki"  className="imageAlign"/>,
         arrow: <img src= "yazirushi.png" alt="yazirushi" className="imageAlign"/>,
         heroIcon: <img src= "moe.jpeg" alt="moe"  className="imageAlign"/>,
-        applause: <img src="hakushu.jpg" alt="hakushu" className="imageAppluase"/>,
         applauseNumber: 2,
         date: "2019/12/02 13:51"
       },
@@ -28,7 +27,6 @@ import styles from './style.css';
         praiserIcon: <img src= "satoko.png" alt="satoko" className="imageAlign"/>,
         arrow: <img src= "yazirushi.png" alt="yazirushi" className="imageAlign"/>,
         heroIcon: <img src= "juma.png" alt="juma" className="imageAlign"/>,
-        applause: <img src="hakushu.jpg" alt="hakushu"className="imageAppluase"/>,
         applauseNumber: 4,
         date: "2019/12/02"
       },

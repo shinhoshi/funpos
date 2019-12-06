@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PostItem from './PostItem';
 import styles from './style.css';
 

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 export class PostInput extends React.Component {
   render() {
     return (
         <div>
           <form>
-            <input
+            <textarea
               type="text"
               placeholder='あなたの仲間の素敵な行動を褒めようぜ！'
               className="Postform"
@@ -13,6 +13,7 @@ export class PostInput extends React.Component {
             <input
               type="submit"
               value="投稿"
+              className="PostButton"
             />
           </form>
         </div>
