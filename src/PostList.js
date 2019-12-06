@@ -1,5 +1,6 @@
 import React from 'react';
 import PostItem from './PostItem';
+import styles from './style.css';
 
 
 export class PostList extends React.Component {
@@ -11,7 +12,7 @@ export class PostList extends React.Component {
     });
     return (
       <div>
-        <ul>
+        <ul className= "PostList">
           {list}
         </ul>
       </div>

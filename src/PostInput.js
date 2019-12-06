@@ -8,6 +8,7 @@ export class PostInput extends React.Component {
             <input
               type="text"
               placeholder='あなたの仲間の素敵な行動を褒めようぜ！'
+              className="Postform"
             />
             <input
               type="submit"

@@ -7,8 +7,8 @@ export class UserInfo extends React.Component {
           <div>
             <img src= "yuki.png" alt="yuki"/>
           </div>
-          <div className= "SelectName">
-            <select name="example">
+          <div>
+            <select  className= "SelectName">
               <option value="yuki">yuki</option>
               <option value="satoko">satoko</option>
               <option value="juma">juma</option>

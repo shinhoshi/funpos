@@ -1,7 +1,58 @@
+
+/* CurrentUser横に並べる */
 .wrapper {
   display: flex;
 }
 
+/* 名前のプルダウン */
+.SelectName {
+  width:80px;
+  height:20px;
+}
+
+/* AddPost横に並べる */
 .AddPost {
   display: flex;
+}
+
+/* AddPost周り */
+.AddPost {
+  padding: 1em 1em;
+  margin: 2em 0;
+  color: #2c2c2f;
+  /* 背景色 */
+  background: #eeeeee;
+}
+
+/* form周り */
+.Postform {
+  width: 300px;
+  height: 10em;
+  margin: 0;
+  padding: 0;
+}
+
+/* liの店消す */
+.PostList {
+  list-style: none;
+}
+
+/* 画像の大きさ揃える */
+.imageAlign {
+  width: 96px;
+  height: 96px;
+}
+
+/* 拍手の画像の大きさ */
+.imageAppluase {
+  width: 30px;
+  height: 30px;
+}
+
+/* PostItemの背景 */
+.background {
+  padding: 1em 1em;
+  margin: 2em 0;
+  color: #2c2c2f;
+  background: #eeeeee;/*背景色*/
 }
