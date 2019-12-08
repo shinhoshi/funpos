@@ -11,12 +11,15 @@
   font-family:  "serif";
 }
 
+/* 以下UserInfo*/
 
 
 /* 名前のプルダウン */
 .SelectName {
   width:80px;
   height:20px;
+  cursor: pointer;
+  text-align: center;
 }
 
 /* 以下AddPost */
@@ -53,6 +56,7 @@
   position: absolute;
   bottom: 20px;
   right: 30px;
+  cursor: pointer;
 }
 
 
@@ -69,12 +73,13 @@
   height: 96px;
 }
 
-/* 拍手の画像の大きさ */
+/* 拍手の画像 */
 .imageAppluase {
   width: 30px;
   height: 30px;
   position: absolute;
   bottom: 5px;
+  cursor: pointer;
 }
 
 /* PostItem全体 PostItemのfooter，.ApplauseNumber，.imageAppluase，.PostDateの親要素 */

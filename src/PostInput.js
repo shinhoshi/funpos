@@ -17,11 +17,20 @@ export class PostInput extends React.Component {
     });
   }
 
+
+
   handleClick(e) {
     e.preventDefault();
 
+    // console.log(this.state.inputValue.length);
+
     //空文字投稿できない
-    if (this.state.inputValue.trim() === '') {
+    // if (this.state.inputValue.trim() === '') {
+    //   return;
+    // }
+
+
+    if (this.state.inputValue.length <= 5) {
       return;
     }
 
@@ -33,6 +42,10 @@ export class PostInput extends React.Component {
       inputValue: '',
     });
   }
+
+
+
+
 
   render() {
     return (
@@ -51,7 +64,9 @@ export class PostInput extends React.Component {
               value="投稿"
               className="PostButton"
               onClick={this.handleClick}
+
             />
+
           </form>
         </div>
     );

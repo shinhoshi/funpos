@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 export class UserInfo extends React.Component {
+  
   render() {
     return (
-        <div>
+        <div className="UserInfo">
           <div>
             <img src= "yuki.png" alt="yuki"/>
           </div>

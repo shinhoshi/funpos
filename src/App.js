@@ -17,32 +17,33 @@ function getUniqueId() {
      super(props);
       this.state = {
         posts : [
-          {
-            text: 'aaa',
-            id: 0 ,
-            praiserIcon: <img src= "yuki.png" alt="yuki"  className="imageAlign"/>,
-            heroIcon: <img src= "moe.jpeg" alt="moe"  className="imageAlign"/>,
-            applauseNumber: 2,
-            date: "2019/12/02 13:51"
-          },
-          {
-            text: 'bbb',
-            id: 1 ,
-            praiserIcon: <img src= "satoko.png" alt="satoko" className="imageAlign"/>,
-            heroIcon: <img src= "juma.png" alt="juma" className="imageAlign"/>,
-            applauseNumber: 4,
-            date: "2019/12/02"
-          },
+          // {
+          //   text: 'aaa',
+          //   id: 0 ,
+          //   praiserIcon: <img src= "yuki.png" alt="yuki"  className="imageAlign"/>,
+          //   heroIcon: <img src= "moe.jpeg" alt="moe"  className="imageAlign"/>,
+          //   applauseNumber: 2,
+          //   date: "2019/12/02 13:51"
+          // },
+          // {
+          //   text: 'bbb',
+          //   id: 1 ,
+          //   praiserIcon: <img src= "satoko.png" alt="satoko" className="imageAlign"/>,
+          //   heroIcon: <img src= "juma.png" alt="juma" className="imageAlign"/>,
+          //   applauseNumber: 4,
+          //   date: "2019/12/02"
+          // },
         ],
+        item: '',
         uniqueId: getUniqueId(),
       };
-
       this.addPost = this.addPost.bind(this);
+      this.componentDidUpdate = this.componentDidUpdate.bind(this);
+      // this.componentDidMount = this.componentDidMount.bind(this);
     }
 
-
+    // 実際に投稿するところ
     addPost(text) {
-
       const {
         posts,
         uniqueId,
@@ -62,10 +63,31 @@ function getUniqueId() {
       });
 
       this.setState({
-        posts,
+        posts: posts,
         uniqueId:  getUniqueId(),
+        praiserIcon: <img src= "satoko.png" alt="satoko" className="imageAlign"/>,
+        heroIcon: <img src= "juma.png" alt="juma" className="imageAlign"/>,
+        applauseNumber: 4,
+        date: "2019/12/02"
       });
     }
+
+
+
+    //投稿された後にlocalStorageに保存
+    componentDidUpdate() {
+      localStorage.setItem('posts', JSON.stringify(this.state));
+    }
+
+    //componentがマウントされる時にlocalstorageから読みこむ
+    //未完成
+    // componentDidMount() {
+    //   this.setState({
+    //     posts: JSON.parse(localStorage.getItem('posts'))
+    //   });
+    // }
+
+
 
     // 以下見た目の部分
   render() {
@@ -81,7 +103,10 @@ function getUniqueId() {
           </div>
         </div>
         <div>
-          <PostList posts={this.state.posts} />
+          <PostList
+            posts={this.state.posts}
+            componentDidMount={this.componentDidMount}
+          />
         </div>
       </div>
     );
