@@ -29,7 +29,7 @@ function PostItem(props) {
             />
           </div>
           <div className="ApplauseNumber">
-              {props.applauseNumber}
+              {props.applauseCount}
           </div>
           <div className="PostDate">
             {props.date}

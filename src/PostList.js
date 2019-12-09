@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PostItem from './PostItem';
+
 import styles from './style.css';
 
 
@@ -13,8 +14,11 @@ export class PostList extends React.Component {
     });
     return (
       <div>
-        <ul className= "PostList">
+        <ul
+        className= "PostList"
+        >
           {list.length ? list : <li>投稿がまだありません．</li>}
+
         </ul>
       </div>
     );

@@ -22,21 +22,14 @@ export class PostInput extends React.Component {
   handleClick(e) {
     e.preventDefault();
 
-    // console.log(this.state.inputValue.length);
-
-    //空文字投稿できない
-    // if (this.state.inputValue.trim() === '') {
-    //   return;
-    // }
-
-
+    //5文字以下の投稿できない．
     if (this.state.inputValue.length <= 5) {
       return;
     }
 
     const inputValue = this.state.inputValue;
     this.props.addPost(inputValue);
-
+    
     //formの中身を消してあげる
     this.setState({
       inputValue: '',
