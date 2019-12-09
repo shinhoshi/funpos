@@ -1,5 +1,6 @@
 import React from 'react';
 import { UserInfo } from './UserInfo';
+import { ApplauseZone } from './ApplauseZone';
 import styles from './style.css';
 
 

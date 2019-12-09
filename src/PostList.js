@@ -16,6 +16,7 @@ export class PostList extends React.Component {
       <div>
         <ul
         className= "PostList"
+
         >
           {list.length ? list : <li>投稿がまだありません．</li>}
 

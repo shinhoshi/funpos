@@ -97,13 +97,23 @@
 /* 拍手数 */
 .ApplauseNumber {
   position: absolute;
-  bottom: 5px;
-  left: 45px;
+  bottom: 1px;
+  left: 30px;
 }
+
+
 
 /* Postの日 */
 .PostDate {
   position: absolute;
   bottom: 5px;
   right: 30px;
+}
+
+.hidden-item {
+  display: hidden;
+}
+
+.ApplauseNumber:hover .hidden-item {
+  display: block;
 }

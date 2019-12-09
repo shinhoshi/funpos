@@ -21,13 +21,6 @@ function PostItem(props) {
           </h1>
         </div>
         <div className="PostItemFooter">
-          <div>
-            <img
-              src="hakushu.jpg"
-              alt="hakushu"
-              className="imageAppluase"
-            />
-          </div>
           <div className="ApplauseNumber">
               {props.applauseCount}
           </div>

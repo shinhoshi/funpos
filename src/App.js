@@ -3,6 +3,7 @@ import { CurrentUser } from './CurrentUser';
 import { UserInfo } from './UserInfo';
 import { PostInput } from './PostInput';
 import { PostList } from './PostList';
+import {ApplauseZone} from './ApplauseZone';
 import styles from './style.css';
 
 
@@ -29,31 +30,25 @@ function getNowTime() {
    constructor(props) {
      super(props);
       this.state = {
-        posts : [],
+        posts : [
+          {
+            text: 'aaa',
+            id: 0 ,
+            praiserIcon: <img src= "yuki.png" alt="yuki"  className="imageAlign"/>,
+            heroIcon: <img src= "moe.jpeg" alt="moe"  className="imageAlign"/>,
+            applauseCount: <ApplauseZone />,
+            date: "2019/12/02 13:51"
+          },
+        ],
         item: '',
         uniqueId: getUniqueId(),
-        applauseCount: 0,
         date: getNowTime(),
-
-
-        // userIconData: null,
       };
       this.addPost = this.addPost.bind(this);
       this.componentDidUpdate = this.componentDidUpdate.bind(this);
       // this.componentDidMount = this.componentDidMount.bind(this);
-      this.applauseCountUp = this.applauseCountUp.bind(this);
 
     }
-
-    // 拍手数カウント
-    applauseCountUp() {
-      this.setState(prevState => {
-        return {
-          applauseCount: prevState.applauseCount + 1
-        };
-      });
-    }
-
 
 
     // 実際に投稿するところ
@@ -69,10 +64,10 @@ function getNowTime() {
 
       const post = {
         text,
-        id: uniqueId,
+        id: getUniqueId(),
         praiserIcon: <img src= "satoko.png" alt="satoko" className="imageAlign"/>,
         heroIcon: <img src= "juma.png" alt="juma" className="imageAlign"/>,
-        // applauseCount: applauseCountUp(),
+        applauseCount: <ApplauseZone />,
         date: getNowTime(),
       };
 
@@ -95,14 +90,17 @@ function getNowTime() {
 
     //componentがマウントされる時にlocalstorageから読みこむ
     //未完成
-    componentDidMount() {
-      this.setState({
-        post: 'aaa',
-        id: 'aaaaaaaaaa',
-        praiserIcon: <img src= "satoko.png" alt="satoko" className="imageAlign"/>,
-        heroIcon: <img src= "juma.png" alt="juma" className="imageAlign"/>,
-      });
-    }
+    // componentDidMount() {
+    //   this.setState({
+    //     post: JSON.parse(localStorage.getItem('posts'))
+    //   });
+    // }
+
+    // componentDidMount() {
+    //   console.log(
+    //   JSON.parse(localStorage.getItem('posts'))
+    //   );
+    // }
 
 
 
@@ -125,9 +123,9 @@ function getNowTime() {
         <div>
           <PostList
             posts={this.state.posts}
-            componentidMount={this.componentDidMount}
-            applauseCountUp={this.applauseCountUp}
+            // componentDidMount={this.componentDidMount}
           />
+          {this.state.componentDidMount}
         </div>
       </div>
     );
