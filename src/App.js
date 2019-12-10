@@ -35,7 +35,7 @@ function getNowTime() {
             text: 'aaa',
             id: 0 ,
             praiserIcon: <img src= "yuki.png" alt="yuki"  className="imageAlign"/>,
-            heroIcon: <img src= "moe.jpeg" alt="moe"  className="imageAlign"/>,
+            heroIcon: <img src= "moe.png" alt="moe"  className="imageAlign"/>,
             applauseCount: <ApplauseZone />,
             date: "2019/12/02 13:51"
           },
@@ -48,6 +48,7 @@ function getNowTime() {
       this.componentDidUpdate = this.componentDidUpdate.bind(this);
       // this.componentDidMount = this.componentDidMount.bind(this);
 
+      localStorage.setItem('defaultPosts', JSON.stringify(this.state.posts));
     }
 
 
@@ -90,11 +91,8 @@ function getNowTime() {
 
     //componentがマウントされる時にlocalstorageから読みこむ
     //未完成
-    // componentDidMount() {
-    //   this.setState({
-    //     post: JSON.parse(localStorage.getItem('posts'))
-    //   });
-    // }
+
+
 
     // componentDidMount() {
     //   console.log(
@@ -123,7 +121,8 @@ function getNowTime() {
         <div>
           <PostList
             posts={this.state.posts}
-            // componentDidMount={this.componentDidMount}
+            componentDidMount={this.componentDidMount}
+
           />
           {this.state.componentDidMount}
         </div>

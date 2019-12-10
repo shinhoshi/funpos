@@ -13,12 +13,12 @@ export class CurrentUser extends React.Component {
           </div>
           <div>
             <h2>
-              拍手できる数：100
+              拍手できるポイント：100
             </h2>
           </div>
           <div>
             <h2>
-              拍手された数：0
+              拍手されたポイント：0
             </h2>
           </div>
         </div>
