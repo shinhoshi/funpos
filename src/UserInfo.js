@@ -1,41 +1,34 @@
 import React, { Component } from 'react';
+import styles from './style.css';
 
 const userinfo = [
-  {key: 0, name: "yuki", userIcon: <img src="yuki.png"/>, canApplause: 100, Applaused: 0},
-  {key: 1, name: "satoko", userIcon: <img src="satoko.png"/>, canApplause: 100, Applaused: 0},
-  {key: 2, name: "juma", userIcon: <img src="juma.png"/>, canApplause: 100, Applaused: 0},
-  {key: 3, name: "moe", userIcon: <img src="moe.png"/>, canApplause: 100, Applaused: 0},
+  {key: 0, name: "yuki", userIcon: <img src="yuki.png"/>, canApplause: 100, beApplaused: 0},
+  {key: 1, name: "satoko", userIcon: <img src="satoko.png"/>, canApplause: 100, beApplaused: 0},
+  {key: 2, name: "juma", userIcon: <img src="juma.png"/>, canApplause: 100, beApplaused: 0},
+  {key: 3, name: "moe", userIcon: <img src="moe.png"/>, canApplause: 100, beApplaused: 0},
 ];
 
 
 export class UserInfo extends React.Component {
-
   constructor(props) {
     super(props);
       this.state = {
-        userinfo : [
-          {key: '0', name: "yuki", userIcon: <img src="yuki.png"/>, canApplause: 100, Applaused: 0},
-          {key: '1', name: "satoko", userIcon: <img src="satoko.png"/>, canApplause: 100, Applaused: 0},
-          {key: '2', name: "juma", userIcon: <img src="juma.png"/>, canApplause: 100, Applaused: 0},
-          {key: '3', name: "moe", userIcon: <img src="moe.png"/>, canApplause: 100, Applaused: 0},
-        ],
+        userinfo : [],
         value: '',
       };
-
       this.onChange = this.onChange.bind(this);
       this.handleImage = this.handleImage.bind(this);
-
     // localStorage.setItem('UserInfo', JSON.stringify(this.state));
 }
-
   // 選択されたユーザーのidを識別する
-  onChange(e){
-    console.log(e);
-    console.log(e.target.value);
-    this.setState({ value: e.target.value});
-  }
+  onChange(props){
+    return (
+      <div>
+        {props.name}
+      </div>
+    );};
 
-  // ゆーざーidからアイコンを表示する
+  // ユーザーidからアイコンを表示する
   handleImage(e) {
     if (e.target.value === 0) {
       return (<img src="yuki.png"/>)
@@ -48,12 +41,13 @@ export class UserInfo extends React.Component {
     };
   };
 
-
   render() {
     return (
         <div className="UserInfo">
+          <onChange name="aaa"/>
           <div
             handleImage={this.handleImage}>
+
           </div>
           <select
           onChange={this.onChange}

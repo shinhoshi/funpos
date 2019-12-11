@@ -6,22 +6,15 @@ export class ApplauseZone extends React.Component {
 
   constructor(props) {
     super(props);
-     this.state = {
-        applauseCount: 0,
-        canApplause: 100,
-        beApplaused: 0
-      };
+     this.state = {applauseCount: 0};
      this.onClick = this.onClick.bind(this);
     }
 
   onClick() {
     this.setState((prevState, props) => {
-      return { applauseCount: prevState.applauseCount + 1,
-               canApplause: prevState.canApplause - 2}
-     });
-   };
-
-
+      return { applauseCount: prevState.applauseCount + 1 }
+    });
+  }
 
   shouldComponentUpdate(nextProps, nextState){
    return true;
@@ -31,9 +24,6 @@ export class ApplauseZone extends React.Component {
   render() {
     return (
       <div>
-        <div className="CanApplause">
-          {this.state.canApplause}
-        </div>
         <div>
           <img
             src="hakushu.jpg"

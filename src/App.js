@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CurrentUser } from './CurrentUser';
-import { UserInfo } from './UserInfo';
+// import { UserInfo } from './UserInfo';
 import { PostInput } from './PostInput';
 import { PostList } from './PostList';
 import {ApplauseZone} from './ApplauseZone';
@@ -24,7 +24,7 @@ function getNowTime() {
 
 
 
-// どんなPostが投稿されているかはアプリケーション全体に関わるのでデータの管理はここで行う
+// どんなPostが投稿されているか，拍手数，ユーザー情婦はアプリケーション全体に関わるのでデータの管理はここで行う
 
  class App extends Component {
    constructor(props) {
@@ -33,22 +33,50 @@ function getNowTime() {
         posts : [
           {
             text: 'aaa',
-            id: 0 ,
+            id: getUniqueId() ,
             praiserIcon: <img src= "yuki.png" alt="yuki"  className="imageAlign"/>,
             heroIcon: <img src= "moe.png" alt="moe"  className="imageAlign"/>,
             applauseCount: <ApplauseZone />,
-            date: "2019/12/02 13:51"
+            date: getNowTime()
           },
         ],
         item: '',
         uniqueId: getUniqueId(),
         date: getNowTime(),
+
+
+
+        // それぞれのユーザー情報
+        yukiInfo : [
+          { id: 1,
+            name: "yuki",
+            userIcon: "yuki.png",
+            canApplause: 100,
+            beApplaused: 0 },
+          ],
+        satokoInfo : [
+          { id: 2,
+            name: "satoko",
+            userIcon: "satoko.png",
+            canApplause: 100,
+            beApplaused: 0 },
+          ],
+
+
       };
       this.addPost = this.addPost.bind(this);
       this.componentDidUpdate = this.componentDidUpdate.bind(this);
       // this.componentDidMount = this.componentDidMount.bind(this);
 
+      // ユーザー情報をまとめる
+      var userInfo = {
+        yukiData: this.state.yukiInfo,
+        satokoData: this.state.satokoInfo,
+      }
       localStorage.setItem('defaultPosts', JSON.stringify(this.state.posts));
+      // ユーザー情報をlocaolStorage保存する
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      console.log(JSON.parse(localStorage.getItem('userInfo')))
     }
 
 
@@ -76,6 +104,8 @@ function getNowTime() {
       this.setState({
         posts: newPosts,
       });
+
+
     }
 
 
@@ -110,7 +140,12 @@ function getNowTime() {
         <CurrentUser />
         <div className= "AddPost" >
           <div>
-            <UserInfo  />
+          <select
+            onChange={this.onChange}
+          >
+            { this.state.userInfo.map( this.state.userInfo => <option value={this.state.userInfo.id}>{this.state.userInfo.name}</option>) }
+          </select>
+            // <UserInfo  />
           </div>
           <div>
             <PostInput

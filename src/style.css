@@ -101,6 +101,13 @@
   left: 30px;
 }
 
+/* 拍手できる数 */
+.canApplause {
+  position: absolute;
+  bottom: 90px;
+  right: 1px;
+}
+
 
 
 /* Postの日 */
