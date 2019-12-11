@@ -29,7 +29,7 @@ export class PostInput extends React.Component {
 
     const inputValue = this.state.inputValue;
     this.props.addPost(inputValue);
-    
+
     //formの中身を消してあげる
     this.setState({
       inputValue: '',

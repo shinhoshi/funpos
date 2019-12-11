@@ -1,9 +1,4 @@
 import React, { Component } from 'react';
-import { CurrentUser } from './CurrentUser';
-// import { UserInfo } from './UserInfo';
-import { PostInput } from './PostInput';
-import { PostList } from './PostList';
-import {ApplauseZone} from './ApplauseZone';
 import styles from './style.css';
 
 
@@ -21,150 +16,308 @@ function getNowTime() {
 }
 
 
-
-
-
-// どんなPostが投稿されているか，拍手数，ユーザー情婦はアプリケーション全体に関わるのでデータの管理はここで行う
-
- class App extends Component {
-   constructor(props) {
-     super(props);
+class CurrentUserSelect extends Component {
+  constructor(props) {
+    super(props);
       this.state = {
-        posts : [
-          {
-            text: 'aaa',
-            id: getUniqueId() ,
-            praiserIcon: <img src= "yuki.png" alt="yuki"  className="imageAlign"/>,
-            heroIcon: <img src= "moe.png" alt="moe"  className="imageAlign"/>,
-            applauseCount: <ApplauseZone />,
-            date: getNowTime()
-          },
-        ],
-        item: '',
-        uniqueId: getUniqueId(),
-        date: getNowTime(),
-
-
-
-        // それぞれのユーザー情報
-        yukiInfo : [
-          { id: 1,
-            name: "yuki",
-            userIcon: "yuki.png",
-            canApplause: 100,
-            beApplaused: 0 },
-          ],
-        satokoInfo : [
-          { id: 2,
-            name: "satoko",
-            userIcon: "satoko.png",
-            canApplause: 100,
-            beApplaused: 0 },
-          ],
-
-
+        value: '',
+        currentUserIcon: <img src="yuki.png"/>,
+        canApplause: 100,
+        beApplaused: 0,
       };
-      this.addPost = this.addPost.bind(this);
-      this.componentDidUpdate = this.componentDidUpdate.bind(this);
-      // this.componentDidMount = this.componentDidMount.bind(this);
-
-      // ユーザー情報をまとめる
-      var userInfo = {
-        yukiData: this.state.yukiInfo,
-        satokoData: this.state.satokoInfo,
-      }
-      localStorage.setItem('defaultPosts', JSON.stringify(this.state.posts));
-      // ユーザー情報をlocaolStorage保存する
-      localStorage.setItem('userInfo', JSON.stringify(userInfo));
-      console.log(JSON.parse(localStorage.getItem('userInfo')))
-    }
-
-
-    // 実際に投稿するところ
-    addPost(text) {
-      const {
-        posts,
-        uniqueId,
-        praiserIcon,
-        heroIcon,
-        applauseCount,
-        date,
-      } = this.state;
-
-      const post = {
-        text,
-        id: getUniqueId(),
-        praiserIcon: <img src= "satoko.png" alt="satoko" className="imageAlign"/>,
-        heroIcon: <img src= "juma.png" alt="juma" className="imageAlign"/>,
-        applauseCount: <ApplauseZone />,
-        date: getNowTime(),
-      };
-
-      const newPosts = posts.concat(post)
-      this.setState({
-        posts: newPosts,
-      });
-
-
-    }
+      this.handleImage = this.handleImage.bind(this);
+}
 
 
 
-
-
-    //投稿された後にlocalStorageに保存
-    componentDidUpdate() {
-      localStorage.setItem('posts', JSON.stringify(this.state.posts));
-    }
-
-
-
-    //componentがマウントされる時にlocalstorageから読みこむ
-    //未完成
-
-
-
-    // componentDidMount() {
-    //   console.log(
-    //   JSON.parse(localStorage.getItem('posts'))
-    //   );
-    // }
+  // ユーザーidからアイコン,拍手できるポイント,されたポイントを表示する
+  handleImage(e) {
+    console.log(e.target.value);
+    // e.target.value と同じvalueを持つユーザーの配列を取得
+    const findInfo = this.props.userinfo.find((v) => v.value == e.target.value );
+    console.log(findInfo);
+    console.log(findInfo['userIcon']);
+    this.setState({
+      currentUserIcon: findInfo['userIcon'],
+      canApplause: findInfo['canApplause'],
+      beApplaused: findInfo['beApplaused']});
+  };
 
 
 
-
-    // 以下見た目の部分
-  render() {
+  render(props) {
     return (
-      <div>
-        <CurrentUser />
-        <div className= "AddPost" >
-          <div>
-          <select
-            onChange={this.onChange}
+      <div className='CurrentUser'>
+        {this.state.currentUserIcon}
+        <select
+          className='SelectName'
+          onChange={this.handleImage}
           >
-            { this.state.userInfo.map( this.state.userInfo => <option value={this.state.userInfo.id}>{this.state.userInfo.name}</option>) }
-          </select>
-            // <UserInfo  />
-          </div>
-          <div>
-            <PostInput
-              addPost={this.addPost}
-            />
-          </div>
+          { this.props.userinfo.map(userinfo => <option value={userinfo.value}>{userinfo.name}</option>)}
+        </select>
+        <div>
+          拍手できる : { this.state.canApplause }
         </div>
         <div>
-          <PostList
-            posts={this.state.posts}
-            componentDidMount={this.componentDidMount}
-
-          />
-          {this.state.componentDidMount}
+          拍手された : { this.state.beApplaused }
         </div>
       </div>
     );
-  };
+  }
 }
+
+
+class ApplausedUserSelect extends Component {
+  constructor(props) {
+    super(props);
+      this.state = {
+        value: '',
+        applausedUserIcon: <img src="yuki.png"/>,
+      };
+      this.handleImage = this.handleImage.bind(this);
+}
+
+  // ユーザーidからアイコンを表示する
+  handleImage(e) {
+    console.log(e.target.value);
+    // e.target.value と同じvalueを持つユーザーの配列を取得
+    const findInfo = this.props.userinfo.find((v) => v.value == e.target.value );
+    console.log(findInfo);
+    console.log(findInfo['userIcon']);
+    this.setState({
+      applausedUserIcon: findInfo['userIcon']});
+  };
+
+
+  render(props) {
+    return (
+      <div className>
+        {this.state.applausedUserIcon}
+        <select
+          className='SelectName'
+          onChange={this.handleImage}>
+          { this.props.userinfo.map(userinfo => <option value={userinfo.value}>{userinfo.name}</option>)}
+        </select>
+      </div>
+    );
+  }
+}
+
+function PostItem(props) {
+  return (
+    <div className="PostItem">
+      <li>
+        <div>
+          {props.praiserIcon}
+          <img
+            src= "yazirushi.png"
+            alt="yazirushi"
+            className="imageAlign"
+          />
+          {props.heroIcon}
+        </div>
+        <div className="PostItemText">
+          <h1>
+            {props.text}
+          </h1>
+        </div>
+        <div className="PostItemFooter">
+          <img
+            src="hakushu.jpg"
+            alt="hakushu"
+            className="imageAppluase"
+            onClick={() => props.onClickHakushu(props.post)}
+          />
+          <div className="ApplauseNumber">
+              {props.applauseCount}
+
+          </div>
+          <div className="PostDate">
+            {props.date}
+          </div>
+        </div>
+      </li>
+    </div>
+  );
+}
+
+class PostList extends Component {
+  render(props) {
+    const posts = this.props.posts.map(post => {
+      return (
+        <PostItem
+          key={post.id}
+          text={post.text}
+          praiserIcon={post.praiserIcon}
+          heroIcon={post.heroIcon}
+          applauseCount={post.applauseCount}
+          date={post.date}
+          onClickHakushu={this.props.onClickHakushu}
+        />
+      );
+    });
+    return (
+      <div>
+        <ul className='PostList'>
+          {posts}
+        </ul>
+      </div>
+    );
+  }
+}
+
+export class PostInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputValue: '',
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+
+
+
+  // フォームに何か文字が入力されたらその文字を反映する
+  handleChange(e) {
+    this.setState({
+      inputValue: e.target.value,
+    });
+  }
+
+  // クリックされたらaddPostしてあげる
+  handleClick(e) {
+    e.preventDefault();
+
+    //5文字以下の投稿できない．
+    if (this.state.inputValue.length <= 5) {
+      return;
+    }
+
+    const inputValue = this.state.inputValue;
+    this.props.addPost(inputValue);
+
+    //formの中身を消してあげる
+    this.setState({
+      inputValue: '',
+    });
+  }
+
+  render() {
+    return (
+        <div>
+          <form>
+            <textarea
+              type="text"
+              placeholder='あなたの仲間の素敵な行動を褒めようぜ！'
+              className="Postform"
+              onChange={this.handleChange}
+              value={this.state.inputValue}
+              //onChangeしてからvalue
+            />
+            <input
+              type="submit"
+              value="投稿"
+              className="PostButton"
+              onClick={this.handleClick}
+            />
+          </form>
+        </div>
+    );
+  }
+}
+
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      posts: [
+        { text: 'aaa',
+          id: getUniqueId() ,
+          praiserIcon: <img src= "yuki.png" alt="yuki"  className="imageAlign"/>,
+          heroIcon: <img src= "moe.png" alt="moe"  className="imageAlign"/>,
+          applauseCount: 4,
+          date: getNowTime(),
+        },
+      ],
+      userinfo: [
+        { value: 1, name: "yuki", userIcon: <img src="yuki.png"/>, canApplause: 100, beApplaused: 0 },
+        { value: 2, name: "satoko", userIcon:<img src= "satoko.png"/>, canApplause: 70, beApplaused: 8 },
+      ],
+    };
+    this.onClickHakushu = this.onClickHakushu.bind(this);
+    this.addPost = this.addPost.bind(this);
+    this.componentDidUpdate = this.componentDidUpdate.bind(this);
+  }
+
+  // localStorageに投げる
+  componentDidUpdate() {
+    localStorage.setItem('posts', JSON.stringify(this.state.posts));
+    localStorage.setItem('userInfo', JSON.stringify(this.state.userinfo));
+  }
+
+
+  // 実際に投稿するところ
+ addPost(text) {
+
+   const {
+     posts,
+     uniqueId,
+     praiserIcon,
+     heroIcon,
+     applauseCount,
+     date,
+   } = this.state;
+
+   const post = {
+     text,
+     id: getUniqueId(),
+     praiserIcon: this.state.currentUserIcon,
+     heroIcon: this.props.applausedUserIcon,
+     applauseCount: 2,
+     date: getNowTime(),
+   };
+
+   const newPosts = posts.concat(post)
+   this.setState({
+     posts: newPosts,
+   });
+ }
+
+  // 拍手ボタンをクリックした時に1増える
+  onClickHakushu(post) {
+    this.setState((prevState, props) => {
+      return { applauseCount: prevState.applauseCount + 1}
+     });
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+   return true;
+ }
+
+  render() {
+    return(
+      <div>
+        <div>
+          <CurrentUserSelect userinfo={this.state.userinfo}/>
+        </div>
+        <div>
+          <ApplausedUserSelect userinfo={this.state.userinfo}/>
+          <PostInput
+            addPost={this.addPost}
+          />
+          <PostList
+            posts={this.state.posts}
+            onClickHakushu={this.onClickHakushu}
+          />
+        </div>
+      </div>
+    );
+  }
+}
+
 
 
 export default App;
