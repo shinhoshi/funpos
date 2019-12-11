@@ -28,8 +28,6 @@ class CurrentUserSelect extends Component {
       this.handleImage = this.handleImage.bind(this);
 }
 
-
-
   // ユーザーidからアイコン,拍手できるポイント,されたポイントを表示する
   handleImage(e) {
     console.log(e.target.value);
@@ -42,8 +40,6 @@ class CurrentUserSelect extends Component {
       canApplause: findInfo['canApplause'],
       beApplaused: findInfo['beApplaused']});
   };
-
-
 
   render(props) {
     return (
@@ -65,7 +61,6 @@ class CurrentUserSelect extends Component {
     );
   }
 }
-
 
 class ApplausedUserSelect extends Component {
   constructor(props) {
@@ -122,16 +117,7 @@ function PostItem(props) {
           </h1>
         </div>
         <div className="PostItemFooter">
-          <img
-            src="hakushu.jpg"
-            alt="hakushu"
-            className="imageAppluase"
-            onClick={() => props.onClickHakushu(props.post)}
-          />
-          <div className="ApplauseNumber">
-              {props.applauseCount}
-
-          </div>
+          <ApplauseZone />
           <div className="PostDate">
             {props.date}
           </div>
@@ -176,9 +162,6 @@ export class PostInput extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-
-
-
   // フォームに何か文字が入力されたらその文字を反映する
   handleChange(e) {
     this.setState({
@@ -189,15 +172,12 @@ export class PostInput extends React.Component {
   // クリックされたらaddPostしてあげる
   handleClick(e) {
     e.preventDefault();
-
     //5文字以下の投稿できない．
     if (this.state.inputValue.length <= 5) {
       return;
     }
-
     const inputValue = this.state.inputValue;
     this.props.addPost(inputValue);
-
     //formの中身を消してあげる
     this.setState({
       inputValue: '',
@@ -228,8 +208,54 @@ export class PostInput extends React.Component {
   }
 }
 
-class App extends Component {
 
+// 拍手数
+export class ApplauseZone extends React.Component {
+
+  constructor(props) {
+    super(props);
+     this.state = {
+        applauseCount: 0,
+        canApplause: 100,
+        beApplaused: 0
+      };
+     this.onAppluaseIconClick = this.onAppluaseIconClick.bind(this);
+    }
+
+  onAppluaseIconClick() {
+    this.setState((prevState, props) => {
+      return { applauseCount: prevState.applauseCount + 1,
+               canApplause: prevState.canApplause - 2}
+     });
+   };
+
+  shouldComponentUpdate(nextProps, nextState){
+   return true;
+ }
+
+  render() {
+    return (
+      <div>
+        <div>
+          <img
+            src="hakushu.jpg"
+            alt="hakushu"
+            className="imageAppluase"
+            onClick={this.onAppluaseIconClick}
+          />
+        </div>
+        <div className="ApplauseNumber">
+          {this.state.applauseCount}
+        </div>
+        <div className='AppluseList'>
+          aaa
+        </div>
+      </div>
+    );
+  }
+}
+
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -250,12 +276,43 @@ class App extends Component {
     this.onClickHakushu = this.onClickHakushu.bind(this);
     this.addPost = this.addPost.bind(this);
     this.componentDidUpdate = this.componentDidUpdate.bind(this);
+    this.componentWillMount = this.componentWillMount.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+
   }
+
+
+  // userinfo を先にlocalStorageにいれる
+  componentWillMount() {
+    localStorage.setItem('userinfo', JSON.stringify(this.state.userinfo));
+    const newUserinfo = JSON.parse(localStorage.getItem('userinfo'));
+    console.log(newUserinfo)
+
+    // userinfoの書き換え
+    this.setState({
+      userinfo: newUserinfo
+    });
+    console.log(this.state.userinfo)
+     // localStorage.clear();
+
+    const getPostInfo = JSON.parse(localStorage.getItem('post'));
+    console.log(getPostInfo);
+
+  }
+
+
 
   // localStorageに投げる
   componentDidUpdate() {
     localStorage.setItem('posts', JSON.stringify(this.state.posts));
     localStorage.setItem('userInfo', JSON.stringify(this.state.userinfo));
+  }
+
+  componentDidMount() {
+    // this.setState({
+    //   posts: JSON.parse(localStorage.getItem('posts')) || []
+    // });
+    console.log(JSON.parse(localStorage.getItem('posts')));
   }
 
 
@@ -274,9 +331,9 @@ class App extends Component {
    const post = {
      text,
      id: getUniqueId(),
-     praiserIcon: this.state.currentUserIcon,
-     heroIcon: this.props.applausedUserIcon,
-     applauseCount: 2,
+     praiserIcon: <img src="yuki.png"/>,
+     heroIcon: <img src= "satoko.png"/>,
+     applauseCount: 0,
      date: getNowTime(),
    };
 
@@ -301,7 +358,9 @@ class App extends Component {
     return(
       <div>
         <div>
-          <CurrentUserSelect userinfo={this.state.userinfo}/>
+          <CurrentUserSelect
+          userinfo={this.state.userinfo}
+          componentWillMount={this.componentWillMount}/>
         </div>
         <div>
           <ApplausedUserSelect userinfo={this.state.userinfo}/>
