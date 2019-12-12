@@ -46,7 +46,7 @@ class PraiserSelect extends Component {
           拍手できる : { this.props.canApplausing }
         </div>
         <div>
-          拍手された : { this.props.beApplaused }
+          拍手された : { this.props.beApplausing }
         </div>
       </div>
     );
@@ -84,41 +84,48 @@ class HeroSelect extends Component {
   }
 }
 
-function PostItem(props) {
-  return (
-    <div className="PostItem">
-      <li>
-        <div>
-          {props.praiserIcon}
-          <img
-            src= "yazirushi.png"
-            alt="yazirushi"
-            className="imageAlign"
-          />
-          {props.heroIcon}
-        </div>
-        <div className="PostItemText">
-          <h1>
-            {props.text}
-          </h1>
-        </div>
-        <div className="PostItemFooter">
-          <ApplauseZone
-            praiserIcon={props.praiserIcon}
-            heroIcon={props.heroIcon}
-          />
-          <div className='ApplauseNumber'>
+class PostItem extends Component{
+  render(props) {
+    const posts = this.props
+    return (
+      <div className="PostItem">
+        <li>
+          <div>
+            {this.props.praiserIcon}
+            <img
+              src= "yazirushi.png"
+              alt="yazirushi"
+              className="imageAlign"
+            />
+            {this.props.heroIcon}
           </div>
-          <div className="PostDate">
-            {props.date}
+          <div className="PostItemText">
+            <h1>
+              {this.props.text}
+            </h1>
           </div>
-        </div>
-      </li>
-    </div>
-  );
+          <div className="PostItemFooter">
+            <ApplauseZone
+              praiserIcon={this.props.praiserIcon}
+              heroIcon={this.props.heroIcon}
+              onClickHakushu={this.props.onClickHakushu}
+
+            />
+            <div className='ApplauseNumber'>
+            </div>
+            <div className="PostDate">
+              {this.props.date}
+            </div>
+          </div>
+        </li>
+      </div>
+    );
+  }
 }
 
+
 class PostList extends Component {
+
   render(props) {
     const posts = this.props.posts.map(post => {
       return (
@@ -129,6 +136,7 @@ class PostList extends Component {
           heroIcon={post.heroIcon}
           applauseCount={post.applauseCount}
           date={post.date}
+          onClickHakushu={this.props.onClickHakushu}
         />
       );
     });
@@ -136,6 +144,7 @@ class PostList extends Component {
       <div>
         <ul className='PostList'>
           {posts}
+
         </ul>
       </div>
     );
@@ -222,6 +231,8 @@ export class ApplauseZone extends React.Component {
     console.log(postPraiserIcon)
 
 
+
+
     // if ( this.props.praiserIcon = this.props.heroIcon ) {
     //   return;
     // }
@@ -236,6 +247,9 @@ export class ApplauseZone extends React.Component {
      console.log(this.state.applauseCount);
      console.log(this.state.canApplause);
      console.log(this.state.beApplaused);
+
+     // App コンポーネントのonClickHakuhuを動かす
+     return this.props.onClickHakushu();
    };
 
   shouldComponentUpdate(nextProps, nextState){
@@ -286,11 +300,20 @@ class App extends Component {
       praiserIcon: <img src="yuki.png"/>,
       heroIcon: <img src='yuki.png' />,
       canApplausing: 100,
-      beApplaused: 0,
+      beApplausing: 0,
     };
     this.addPost = this.addPost.bind(this);
     this.handlePraiserIcon = this.handlePraiserIcon.bind(this);
     this.handleHeroIcon = this.handleHeroIcon.bind(this);
+    this.onClickHakushu = this.onClickHakushu.bind(this);
+  }
+
+  onClickHakushu() {
+    this.setState((prevState, props) => {
+      return {
+               canApplausing: prevState.canApplausing - 2,
+               beApplausing: prevState.beApplausing + 1, }
+     });
   }
 
 
@@ -310,10 +333,6 @@ class App extends Component {
     const getPostInfo = JSON.parse(localStorage.getItem('posts'));
     console.log(getPostInfo);
 
-    this.setState({
-      post: getPostInfo || []
-    })
-
   }
 
 
@@ -323,13 +342,15 @@ class App extends Component {
     localStorage.setItem('posts', JSON.stringify(this.state.posts));
     localStorage.setItem('userInfo', JSON.stringify(this.state.userinfo));
   }
-  // //
-  // componentDidMount() {
-  //   this.setState({
-  //     posts: JSON.parse(localStorage.getItem('posts')) || []
-  //   });
-  //   console.log(JSON.parse(localStorage.getItem('posts')));
-  // }
+  //
+  componentDidMount(props) {
+    // this.setState({
+    //   posts: JSON.parse(localStorage.getItem('posts')) || []
+    // });
+    const getPostInfo = JSON.parse(localStorage.getItem('posts'));
+    console.log(getPostInfo);
+
+  }
 
   // ポイントをまとめて計算するよ
   // calculationPoints(ePraiserTargetValue) {
@@ -358,7 +379,7 @@ class App extends Component {
     this.setState({
       praiserIcon: findInfo['userIcon'],
       canApplausing: findInfo['canApplause'],
-      beApplaused: findInfo['beApplaused']
+      beApplausing: findInfo['beApplaused']
     });
   };
 
@@ -417,7 +438,7 @@ class App extends Component {
             handlePraiserIcon={this.handlePraiserIcon}
             praiserIcon={this.state.praiserIcon}
             canApplausing={this.state.canApplausing}
-            beApplaused={this.state.beApplaused}
+            beApplausing={this.state.beApplausing}
           />
         </div>
         <div>
@@ -433,6 +454,9 @@ class App extends Component {
           />
           <PostList
             posts={this.state.posts}
+            onClickHakushu={this.onClickHakushu}
+
+
 
           />
         </div>
