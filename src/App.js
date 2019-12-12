@@ -16,39 +16,31 @@ function getNowTime() {
 }
 
 
-class CurrentUserSelect extends Component {
+class PraiserSelect extends Component {
   constructor(props) {
     super(props);
       this.state = {
         value: '',
-        currentUserIcon: <img src="yuki.png"/>,
         canApplause: 100,
         beApplaused: 0,
       };
-      this.handleImage = this.handleImage.bind(this);
+      this.handlePraiserChange = this.handlePraiserChange.bind(this);
 }
 
-  // ユーザーidからアイコン,拍手できるポイント,されたポイントを表示する
-  handleImage(e) {
+  handlePraiserChange(e){
     console.log(e.target.value);
-    // e.target.value と同じvalueを持つユーザーの配列を取得
-    const findInfo = this.props.userinfo.find((v) => v.value == e.target.value );
-    console.log(findInfo);
-    console.log(findInfo['userIcon']);
-    this.setState({
-      currentUserIcon: findInfo['userIcon'],
-      canApplause: findInfo['canApplause'],
-      beApplaused: findInfo['beApplaused']});
-  };
+    const ePraiserTargetValue = e.target.value;
+    this.props.handlePraiserIcon(ePraiserTargetValue);
+  }
 
   render(props) {
     return (
       <div className='CurrentUser'>
-        {this.state.currentUserIcon}
+        { this.props.praiserIcon }
         <select
           className='SelectName'
-          onChange={this.handleImage}
-          >
+          onChange={this.handlePraiserChange}
+        >
           { this.props.userinfo.map(userinfo => <option value={userinfo.value}>{userinfo.name}</option>)}
         </select>
         <div>
@@ -62,35 +54,32 @@ class CurrentUserSelect extends Component {
   }
 }
 
-class ApplausedUserSelect extends Component {
+// 褒めたい人を選ぶ
+class HeroSelect extends Component {
   constructor(props) {
     super(props);
       this.state = {
         value: '',
-        applausedUserIcon: <img src="yuki.png"/>,
+        canApplause: 100,
+        beApplaused: 0,
       };
-      this.handleImage = this.handleImage.bind(this);
+      this.handleHeroChange = this.handleHeroChange.bind(this);
 }
 
-  // ユーザーidからアイコンを表示する
-  handleImage(e) {
+  handleHeroChange(e){
     console.log(e.target.value);
-    // e.target.value と同じvalueを持つユーザーの配列を取得
-    const findInfo = this.props.userinfo.find((v) => v.value == e.target.value );
-    console.log(findInfo);
-    console.log(findInfo['userIcon']);
-    this.setState({
-      applausedUserIcon: findInfo['userIcon']});
-  };
-
+    const eHeroTargetvalue = e.target.value;
+    this.props.handleHeroIcon(eHeroTargetvalue);
+  }
 
   render(props) {
     return (
       <div className>
-        {this.state.applausedUserIcon}
+        { this.props.heroIcon }
         <select
           className='SelectName'
-          onChange={this.handleImage}>
+          onChange={this.handleHeroChange}
+        >
           { this.props.userinfo.map(userinfo => <option value={userinfo.value}>{userinfo.name}</option>)}
         </select>
       </div>
@@ -117,7 +106,10 @@ function PostItem(props) {
           </h1>
         </div>
         <div className="PostItemFooter">
-          <ApplauseZone />
+          <ApplauseZone
+          />
+          <div className='ApplauseNumber'>
+          </div>
           <div className="PostDate">
             {props.date}
           </div>
@@ -138,7 +130,6 @@ class PostList extends Component {
           heroIcon={post.heroIcon}
           applauseCount={post.applauseCount}
           date={post.date}
-          onClickHakushu={this.props.onClickHakushu}
         />
       );
     });
@@ -209,7 +200,7 @@ export class PostInput extends React.Component {
 }
 
 
-// 拍手数
+// 拍手機能
 export class ApplauseZone extends React.Component {
 
   constructor(props) {
@@ -228,6 +219,8 @@ export class ApplauseZone extends React.Component {
                canApplause: prevState.canApplause - 2}
      });
    };
+
+
 
   shouldComponentUpdate(nextProps, nextState){
    return true;
@@ -264,7 +257,7 @@ class App extends Component {
           id: getUniqueId() ,
           praiserIcon: <img src= "yuki.png" alt="yuki"  className="imageAlign"/>,
           heroIcon: <img src= "moe.png" alt="moe"  className="imageAlign"/>,
-          applauseCount: 4,
+          applauseCount: 0,
           date: getNowTime(),
         },
       ],
@@ -272,49 +265,78 @@ class App extends Component {
         { value: 1, name: "yuki", userIcon: <img src="yuki.png"/>, canApplause: 100, beApplaused: 0 },
         { value: 2, name: "satoko", userIcon:<img src= "satoko.png"/>, canApplause: 70, beApplaused: 8 },
       ],
+      praiserIcon: <img src="yuki.png"/>,
+      heroIcon: <img src='yuki.png' />,
     };
-    this.onClickHakushu = this.onClickHakushu.bind(this);
     this.addPost = this.addPost.bind(this);
-    this.componentDidUpdate = this.componentDidUpdate.bind(this);
-    this.componentWillMount = this.componentWillMount.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
+    this.handlePraiserIcon = this.handlePraiserIcon.bind(this);
+    this.handleHeroIcon = this.handleHeroIcon.bind(this);
+
+    // this.componentDidUpdate = this.componentDidUpdate.bind(this);
+    // this.componentWillMount = this.componentWillMount.bind(this);
+    // this.componentDidMount = this.componentDidMount.bind(this);
 
   }
 
 
   // userinfo を先にlocalStorageにいれる
-  componentWillMount() {
-    localStorage.setItem('userinfo', JSON.stringify(this.state.userinfo));
-    const newUserinfo = JSON.parse(localStorage.getItem('userinfo'));
-    console.log(newUserinfo)
+  // componentWillMount() {
+  //   localStorage.setItem('userinfo', JSON.stringify(this.state.userinfo));
+  //   const newUserinfo = JSON.parse(localStorage.getItem('userinfo'));
+  //   console.log(newUserinfo)
+  //
+  //   // userinfoの書き換え
+  //   this.setState({
+  //     userinfo: newUserinfo
+  //   });
+  //   console.log(this.state.userinfo)
+  //    // localStorage.clear();
+  //
+  //   const getPostInfo = JSON.parse(localStorage.getItem('post'));
+  //   console.log(getPostInfo);
+  //
+  // }
+  // //
+  //
+  //
+  // // localStorageに投げる
+  // componentDidUpdate() {
+  //   localStorage.setItem('posts', JSON.stringify(this.state.posts));
+  //   localStorage.setItem('userInfo', JSON.stringify(this.state.userinfo));
+  // }
+  // //
+  // componentDidMount() {
+  //   this.setState({
+  //     posts: JSON.parse(localStorage.getItem('posts')) || []
+  //   });
+  //   console.log(JSON.parse(localStorage.getItem('posts')));
+  // }
 
-    // userinfoの書き換え
+
+
+  // 現在ユーザーのアイコンを変える
+  handlePraiserIcon(ePraiserTargetValue) {
+    console.log(ePraiserTargetValue);
+    // e.target.value と同じvalueを持つユーザーの配列を取得
+    const findInfo = this.state.userinfo.find((v) => v.value == ePraiserTargetValue );
+    console.log(findInfo);
+    console.log(findInfo['userIcon']);
     this.setState({
-      userinfo: newUserinfo
-    });
-    console.log(this.state.userinfo)
-     // localStorage.clear();
+      praiserIcon: findInfo['userIcon'],
+      canApplause: findInfo['canApplause'],
+      beApplaused: findInfo['beApplaused']});
+  };
 
-    const getPostInfo = JSON.parse(localStorage.getItem('post'));
-    console.log(getPostInfo);
-
-  }
-
-
-
-  // localStorageに投げる
-  componentDidUpdate() {
-    localStorage.setItem('posts', JSON.stringify(this.state.posts));
-    localStorage.setItem('userInfo', JSON.stringify(this.state.userinfo));
-  }
-
-  componentDidMount() {
-    // this.setState({
-    //   posts: JSON.parse(localStorage.getItem('posts')) || []
-    // });
-    console.log(JSON.parse(localStorage.getItem('posts')));
-  }
-
+  // 褒めたいユーザーのアイコンを変える
+  handleHeroIcon(eHeroTargetValue) {
+    console.log(eHeroTargetValue);
+    // e.target.value と同じvalueを持つユーザーの配列を取得
+    const findInfo = this.state.userinfo.find((v) => v.value == eHeroTargetValue );
+    console.log(findInfo);
+    console.log(findInfo['userIcon']);
+    this.setState({
+      heroIcon: findInfo['userIcon']});
+  };
 
   // 実際に投稿するところ
  addPost(text) {
@@ -331,8 +353,8 @@ class App extends Component {
    const post = {
      text,
      id: getUniqueId(),
-     praiserIcon: <img src="yuki.png"/>,
-     heroIcon: <img src= "satoko.png"/>,
+     praiserIcon: this.state.praiserIcon,
+     heroIcon: this.state.heroIcon,
      applauseCount: 0,
      date: getNowTime(),
    };
@@ -343,33 +365,33 @@ class App extends Component {
    });
  }
 
-  // 拍手ボタンをクリックした時に1増える
-  onClickHakushu(post) {
-    this.setState((prevState, props) => {
-      return { applauseCount: prevState.applauseCount + 1}
-     });
-  }
 
-  shouldComponentUpdate(nextProps, nextState){
-   return true;
- }
 
   render() {
     return(
       <div>
         <div>
-          <CurrentUserSelect
-          userinfo={this.state.userinfo}
-          componentWillMount={this.componentWillMount}/>
+          <PraiserSelect
+            userinfo={this.state.userinfo}
+            componentWillMount={this.componentWillMount}
+            handlePraiserIcon={this.handlePraiserIcon}
+            praiserIcon={this.state.praiserIcon}
+          />
         </div>
         <div>
-          <ApplausedUserSelect userinfo={this.state.userinfo}/>
+          <HeroSelect
+            userinfo={this.state.userinfo}
+            heroIcon={this.state.heroIcon}
+            handleHeroIcon={this.handleHeroIcon}
+          />
           <PostInput
             addPost={this.addPost}
+            praiserIcon={this.state.praiserIcon}
+            heroIcon={this.state.heroIcon}
+
           />
           <PostList
             posts={this.state.posts}
-            onClickHakushu={this.onClickHakushu}
           />
         </div>
       </div>
