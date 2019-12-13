@@ -42,12 +42,12 @@ class PraiserSelect extends Component {
         >
           { this.props.userinfo.map(userinfo => <option value={userinfo.value}>{userinfo.name}</option>)}
         </select>
-        <div>
+        <h2 className= 'CanApplause'>
           拍手できる : { this.props.canApplausing }
-        </div>
-        <div>
+        </h2>
+        <h2>
           拍手された : { this.props.beApplausing }
-        </div>
+        </h2>
       </div>
     );
   }
@@ -209,7 +209,6 @@ export class ApplauseZone extends React.Component {
     super(props);
      this.state = {
         applauseCount: 0,
-
       };
      this.onAppluaseIconClick = this.onAppluaseIconClick.bind(this);
     }
@@ -249,7 +248,7 @@ export class ApplauseZone extends React.Component {
           {this.state.applauseCount}
         </div>
         <div className='AppluseList'>
-          {this.state.applauseCount}
+          Yuki:{this.state.applauseCount}
         </div>
       </div>
     );
@@ -289,34 +288,23 @@ class App extends Component {
 
 
 
-
-
-
-
   // localStorageに投げる
   componentDidUpdate() {
     localStorage.setItem('posts', JSON.stringify(this.state.posts));
     localStorage.setItem('userInfo', JSON.stringify(this.state.userinfo));
   }
 
-  // userinfo を先にlocalStorageにいれる
-  componentWillMount() {
-
-    const getPostInfo = JSON.parse(localStorage.getItem('posts'));
-    console.log(getPostInfo);
-
-  }
-
   //
   componentDidMount() {
-    // this.setState({
-    //   posts: JSON.parse(localStorage.getItem('posts')) || []
-    // });
     const getPostInfo = JSON.parse(localStorage.getItem('posts'));
     console.log(getPostInfo);
-    console.log(getPostInfo[0]);
+    console.log(getPostInfo);
+    console.log(getPostInfo[0].posts);
     console.log(this.state.posts)
 
+    // this.setState({
+    //   posts: getPostInfo[0] || []
+    // });
   }
 
 
@@ -328,7 +316,6 @@ class App extends Component {
     // e.target.value と同じvalueを持つユーザーの配列を取得
     const findInfo = this.state.userinfo.find((v) => v.value == ePraiserTargetValue );
     console.log(findInfo['value']);
-
     this.setState({
       praiserIcon: findInfo['userIcon'],
       canApplausing: findInfo['canApplause'],
@@ -351,8 +338,6 @@ class App extends Component {
 
   onClickHakushu() {
     // 投稿した人された人はストップしたい
-    console.log(this.state.pvalue);
-    console.log(this.state.hvalue);
     // if (this.state.pvalue == this.state.hvalue) {
     //   return;
     // }
@@ -366,6 +351,7 @@ class App extends Component {
        return { beApplausing: prevState.beApplausing + 1, }
       });
   }
+
 
 
 

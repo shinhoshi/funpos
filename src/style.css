@@ -22,6 +22,10 @@
   text-align: center;
 }
 
+.CanApplause {
+  margin-right: 10px;
+}
+
 /* 以下AddPost */
 /* AddPost周り，.PostButtonの親要素 */
 .AddPost {
