@@ -292,15 +292,14 @@ class App extends Component {
   componentDidUpdate() {
     localStorage.setItem('posts', JSON.stringify(this.state.posts));
     localStorage.setItem('userInfo', JSON.stringify(this.state.userinfo));
+    console.log(JSON.stringify(this.state.posts));
+    const getPostInfo = JSON.parse(localStorage.getItem('posts'));
+    console.log(getPostInfo);
   }
 
   //
   componentDidMount() {
     const getPostInfo = JSON.parse(localStorage.getItem('posts'));
-    console.log(getPostInfo);
-    console.log(getPostInfo);
-    console.log(getPostInfo[0].posts);
-    console.log(this.state.posts)
 
     // this.setState({
     //   posts: getPostInfo[0] || []
